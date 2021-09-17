@@ -24,6 +24,19 @@ app.use('/api/xml/:status',(req,res,next) => {
     }
 })
 
+app.use('/api/object/:type',(req,res,next) => {
+    let type = req.params.type || 'null'
+    if(type.toString().toLowerCase() == 'null'){
+        console.log("Error Message API sample for null"+ " time "+ new Date() );
+        res.status(200).send(null);
+    }
+
+    if(type.toString().toLowerCase() == 'empty'){
+        console.log("Error Message API sample for empty"+ " time "+ new Date() );
+        res.status(200).send("");
+    }
+})
+
 app.use('/api/:status',(req,res,next)=> {
     let status = req.params.status || 400;
     console.log("Error Message API sample for status "+ status + " time "+ new Date());
@@ -33,6 +46,7 @@ app.use('/api/:status',(req,res,next)=> {
     res.status(+status).send({errorMessage:"Something broken",devMessage:"dev for testing purpose this error ",issueCount:0});
     }
 });
+
 
 
 app.get('/',(req,res,next)=>{
