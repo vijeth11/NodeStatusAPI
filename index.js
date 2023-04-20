@@ -2,6 +2,9 @@ const express = require('express');
 const xml = require('xml');
 const app = express();
 const PORT = process.env.PORT || 5000
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.urlencoded({extended:false}));
 
 app.use('/api/singlestring/:status',(req,res,next)=> {
     let status = req.params.status || 400;
@@ -41,7 +44,10 @@ app.use('/api/:status',(req,res,next)=> {
     let status = req.params.status || 400;
     console.log("Error Message API sample for status "+ status + " time "+ new Date());
     if(+status >= 200 && +status <= 210){
-        res.status(200).send({issueCount:2});
+        if(req.body)
+            res.status(200).send({...req.body});
+        else
+            res.status(200).send({issueCount:2});
     }else{
     res.status(+status).send({errorMessage:"Something broken",devMessage:"dev for testing purpose this error ",issueCount:0});
     }
